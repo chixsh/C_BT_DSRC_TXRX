@@ -78,5 +78,3 @@ int Initialize_Bluetooth_Environment(int arg, char *argv[]);
 int Extract_MAC_Acaddress(u_int8_t *mac, char *str);
 
 void *Bluetooth_Main_Thread(void *arg);
-
-

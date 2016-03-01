@@ -226,26 +226,3 @@ void *DSRC_Main_Thread(void *arg) {
     }//while
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

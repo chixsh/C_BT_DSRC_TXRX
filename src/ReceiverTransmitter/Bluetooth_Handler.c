@@ -653,4 +653,3 @@ void *Bluetooth_Main_Thread(void *arg) {
     }
 
 }
-
