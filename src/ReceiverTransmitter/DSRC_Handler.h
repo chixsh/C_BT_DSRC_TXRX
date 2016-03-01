@@ -15,6 +15,10 @@
 #include <asnwave.h>
 
 
+enum {
+    SEND_DSRC_MESSAGE = 0, RECEIVE_DSRC_MESSAGE
+};
+
 static WMEApplicationRequest DSRC_Entry;
 
 void DSRC_Signal_Interrupt(void);
@@ -29,4 +33,10 @@ int Extract_MAC_Address(u_int8_t *mac, char *str);
 
 int Initialize_DSRC_RX_Environment(int arg, char *argv[]);
 
-void *DSRC_RX_Main_Thread(void *arg);
+int Initialize_DSRC_TX_Environment(int arg, char *argv[]);
+
+int Send_DSRC_Message();
+
+int Receive_DSRC_Message();
+
+void *DSRC_Main_Thread(void *arg);

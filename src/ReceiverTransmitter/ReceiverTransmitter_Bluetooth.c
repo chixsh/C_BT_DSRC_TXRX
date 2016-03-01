@@ -32,8 +32,7 @@
 #include <BasicSafetyMessage.h>
 #include <netinet/tcp.h> //for TCP_NODELAY
 #include "Bluetooth_Handler.h"
-#include "DSRC_RX_Handler.h"
-#include "DSRC_TX_Handler.h"
+#include "DSRC_Handler.h"
 
 
 static int pid;

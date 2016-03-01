@@ -1,5 +1,4 @@
 #include <stdbool.h>
-#include "Global.h"
 #include "Bluetooth_Handler.h"
 // ~~~~~~~~~~~~~~~~~~   Variables  ~~~~~~~~~~~~~~~~~~
 
@@ -396,7 +395,7 @@ int Extract_MAC_Acaddress(u_int8_t *mac, char *str) {
 void *Bluetooth_Main_Thread(void *arg) {
 
     pthread_t CurrentThread_ID = pthread_self();
-    AllocatedThreads[0] = CurrentThread_ID;
+
 
     int i, err, sock, dev_id = -1;
     int num_rsp = 0, max_rsp = 5, flags = 0, length = 4;  /* [1.28 *<length>]seconds [1.28*4 = 5.12] seconds */

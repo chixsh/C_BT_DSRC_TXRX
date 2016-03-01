@@ -2,13 +2,19 @@
 // Created by TRL on 2/12/2016.
 //
 #include "Bluetooth_Handler.h"
-#include "DSRC_RX_Handler.h"
+#include "DSRC_Handler.h"
 
 
 static int pid;
 //static USTEntry entry;
 static WMEApplicationRequest entry;
 static uint64_t count = 0, blank = 0;
+
+int rx_ret = -1, btooth_ret = -1;
+WSMMessage rxmsg;
+WSMIndication rxpkt;
+int ret = 0;
+
 
 
 void DSRC_Signal_Interrupt(void) {
@@ -90,6 +96,9 @@ int Extract_MAC_Address(u_int8_t *mac, char *str) {
 }
 
 int Initialize_DSRC_RX_Environment(int arg, char *argv[]) {
+
+    rxmsg.wsmIndication = &rxpkt;
+
     struct arguments arg1;
     memset(&DSRC_Entry, 0, sizeof(WMEApplicationRequest));
     DSRC_Entry.psid = atoi(argv[4]);
@@ -130,11 +139,91 @@ int Initialize_DSRC_RX_Environment(int arg, char *argv[]) {
 
 }
 
-void *DSRC_RX_Main_Thread(void *arg) {
+int Initialize_DSRC_TX_Environment(int arg, char *argv[]) {
 
-    pthread_t CurrentThread_ID = pthread_self();
+    rxmsg.wsmIndication = &rxpkt;
 
-    AllocatedThreads[1] = CurrentThread_ID;
+    struct arguments arg1;
+    memset(&DSRC_Entry, 0, sizeof(WMEApplicationRequest));
+    DSRC_Entry.psid = atoi(argv[4]);
+
+    if ((atoi(argv[1]) > USER_REQ_SCH_ACCESS_NONE) || (atoi(argv[1]) < USER_REQ_SCH_ACCESS_AUTO)) {
+        printf("User request type invalid: setting default to auto\n");
+        DSRC_Entry.userreqtype = USER_REQ_SCH_ACCESS_AUTO;
+    } else {
+        DSRC_Entry.userreqtype = atoi(argv[1]);
+    }
+    if (DSRC_Entry.userreqtype == USER_REQ_SCH_ACCESS_AUTO_UNCONDITIONAL) {
+        if (arg < 5) {
+            printf("channel needed for unconditional access\n");
+            exit(0);
+        } else {
+            DSRC_Entry.channel = atoi(argv[5]);
+        }
+    }
+    DSRC_Entry.schaccess = atoi(argv[2]);
+    DSRC_Entry.schextaccess = atoi(argv[3]);
+    if (arg > 6) {
+        strncpy(arg1.macaddr, argv[6], 17);
+        DSRC_Set_Arguments(DSRC_Entry.macaddr, &arg1, ADDR_MAC);
+    }
+
+    /* if (invokeWAVEDevice(WAVEDEVICE_LOCAL, 0) < 0) {
+         printf("Open Failed. Quitting\n");
+         exit(-1);
+     }*/
+
+    int pid = DSRC_Entry.psid;
+    printf("Registering DSRC User %d\n", DSRC_Entry.psid);
+    if (registerUser(pid, &DSRC_Entry) < 0) {
+        printf("Register DSRC User Failed \n");
+        printf("Removing DSRC user if already present  %d\n", !removeUser(pid, &DSRC_Entry));
+        printf("DSRC USER Registered %d with PSID =%u \n", registerUser(pid, &DSRC_Entry), DSRC_Entry.psid);
+    }
+
+}
+
+int SendDSRCMessage() {
+
+    return SEND_DSRC_MESSAGE;
+}
+
+int Receive_DSRC_Message() {
+
+    rx_ret = rxWSMMessage(pid, &rxmsg); /* Function to receive the Data from TX application */
+    sched_yield();
+
+    if (rx_ret > 0) {
+        printf("Received DSRC Message txpower= %d, rateindex=%d Packet No =#%llu#\n", rxpkt.chaninfo.txpower,
+               rxpkt.chaninfo.rate, Bluetooth_Count++);
+        rxWSMIdentity(&rxmsg, 0); //Identify the type of received Wave Short Message.
+        if (!rxmsg.decode_status) {
+            Decode_BSM_Message_And_Forward_It_To_BlueTooth_Device(rxmsg);
+            xml_print(rxmsg); /* call the parsing function to extract the contents of the received message */
+        }
+    }//if
+    else {
+        Bluetooth_Blank++;
+    }
+
+    return RECEIVE_DSRC_MESSAGE;
+}
+
+void *DSRC_Main_Thread(void *arg) {
+
+    pthread_t MyThread_ID = pthread_self();
+
+
+    int LastOperation = RECEIVE_DSRC_MESSAGE;
+
+    while (1) { // starts rx packets and tx to bluetooth socket
+        if (Bluetooth_ConnectionStatus == BluetoothConnectionLost) {
+            usleep(100000);
+        }
+        if (LastOperation == SEND_DSRC_MESSAGE) { LastOperation = Receive_DSRC_Message(); }
+        else { LastOperation = SendDSRCMessage(); }
+
+    }//while
 
 }
 
