@@ -21,4 +21,6 @@
 #include <BasicSafetyMessage.h>
 
 
-void *DSRC_TX_MainThread(void *arg);
+int Initialize_DSRC_TX_Environment(int arg, char *argv[]);
+
+void *DSRC_TX_Main_Thread(void *arg);

@@ -17,7 +17,6 @@
 
 static WMEApplicationRequest DSRC_Entry;
 
-
 void DSRC_Signal_Interrupt(void);
 
 void DSRC_Signal_Terminate(void);
@@ -28,4 +27,6 @@ void DSRC_Set_Arguments(void *data, void *argname, int datatype);
 
 int Extract_MAC_Address(u_int8_t *mac, char *str);
 
-int Initialize_DSRC_Environment(int arg, char *argv[]);
+int Initialize_DSRC_RX_Environment(int arg, char *argv[]);
+
+void *DSRC_RX_Main_Thread(void *arg);

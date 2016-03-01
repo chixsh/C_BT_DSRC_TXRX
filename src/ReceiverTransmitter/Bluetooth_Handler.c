@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include "Global.h"
 #include "Bluetooth_Handler.h"
 // ~~~~~~~~~~~~~~~~~~   Variables  ~~~~~~~~~~~~~~~~~~
 
@@ -294,7 +295,7 @@ int Initialize_Bluetooth_Environment(int arg, char *argv[]) {
     struct arguments arg1;
     int thread_arg = 2;
     int thread_ret = -1;
-    thread_ret = pthread_create(&Bluetooth_Thread, NULL, main_bluetooth, (void *) &thread_arg);
+    thread_ret = pthread_create(&Bluetooth_Thread, NULL, Bluetooth_Main_Thread, (void *) &thread_arg);
     sched_yield();
     if (thread_ret < 0) {
         printf("\nERROR : main_bluethread not created\n");
@@ -392,7 +393,11 @@ int Extract_MAC_Acaddress(u_int8_t *mac, char *str) {
     return 0;
 }
 
-void *main_bluetooth(void *arg) {
+void *Bluetooth_Main_Thread(void *arg) {
+
+    pthread_t CurrentThread_ID = pthread_self();
+    AllocatedThreads[0] = CurrentThread_ID;
+
     int i, err, sock, dev_id = -1;
     int num_rsp = 0, max_rsp = 5, flags = 0, length = 4;  /* [1.28 *<length>]seconds [1.28*4 = 5.12] seconds */
     char addr[19] = {0};

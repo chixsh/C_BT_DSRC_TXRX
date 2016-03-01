@@ -1,8 +1,9 @@
 //
 // Created by TRL on 2/12/2016.
 //
-#include "DSRC_RX_Handler.h"
 #include "Bluetooth_Handler.h"
+#include "DSRC_RX_Handler.h"
+
 
 static int pid;
 //static USTEntry entry;
@@ -88,7 +89,7 @@ int Extract_MAC_Address(u_int8_t *mac, char *str) {
     return 0;
 }
 
-int Initialize_DSRC_Environment(int arg, char *argv[]) {
+int Initialize_DSRC_RX_Environment(int arg, char *argv[]) {
     struct arguments arg1;
     memset(&DSRC_Entry, 0, sizeof(WMEApplicationRequest));
     DSRC_Entry.psid = atoi(argv[4]);
@@ -129,6 +130,13 @@ int Initialize_DSRC_Environment(int arg, char *argv[]) {
 
 }
 
+void *DSRC_RX_Main_Thread(void *arg) {
+
+    pthread_t CurrentThread_ID = pthread_self();
+
+    AllocatedThreads[1] = CurrentThread_ID;
+
+}
 
 
 

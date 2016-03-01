@@ -33,6 +33,7 @@
 #include <netinet/tcp.h> //for TCP_NODELAY
 #include "Bluetooth_Handler.h"
 #include "DSRC_RX_Handler.h"
+#include "DSRC_TX_Handler.h"
 
 
 static int pid;
@@ -64,7 +65,8 @@ int main(int arg, char *argv[]) {
     }
     printf("WAVE driver Invoked \n");
     Initialize_Bluetooth_Environment(arg, argv);
-    Initialize_DSRC_Environment(arg, argv);
+    Initialize_DSRC_RX_Environment(arg, argv);
+    Initialize_DSRC_TX_Environment(arg, argv);
 
     while (1) { // starts rx packets and tx to bluetooth socket
         if (Bluetooth_ConnectionStatus == BluetoothConnectionLost) {
