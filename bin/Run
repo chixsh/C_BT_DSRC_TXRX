@@ -1,7 +1,8 @@
 #!/bin/sh
+cp /tmp/usb/Start /tmp/
 cp /tmp/usb/Start_DSRC /tmp/
 cp /tmp/usb/Start_Bluetooth /tmp/
-cp /tmp/usb/RX_Forward_DSRC_To_Bluetooth /tmp/
+cp /tmp/usb/ReceiverTransmitter_Bluetooth /tmp/
 cp /tmp/usb/BT_DSRC_RX /tmp/
 # umount /dev/sda1
 # /tmp/Start_Bluetooth

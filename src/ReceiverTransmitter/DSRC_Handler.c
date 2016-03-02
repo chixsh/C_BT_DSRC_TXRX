@@ -302,7 +302,7 @@ int FillGPSInfo(BasicSafetyMessage_t *bsm) {
     static int count = 0;
     count++;                   /* count for the Number of packets Tx */
     int j;
-    printf("FillGPSInfo :- Starting \n");
+    //  printf("FillGPSInfo :- Starting \n");
 
     bsm->msgID.size = sizeof(uint8_t);
     bsm->msgID.buf[0] = DSRCmsgID_basicSafetyMessage; // Choose what type of message you want to transfer
@@ -324,7 +324,7 @@ int FillGPSInfo(BasicSafetyMessage_t *bsm) {
     longLatToFourBytes(GPS->latitude, bsm, 07); // Update Latitude Bytes
     longLatToFourBytes(GPS->longitude, bsm, 11); // Update Latitude Bytes
 
-    printf("FillGPSInfo :- Ended \n");
+    //   printf("FillGPSInfo :- Ended \n");
 }
 
 int BuildMessage() {
@@ -356,7 +356,7 @@ int BuildMessage() {
     if (rvalenc.encoded == -1) {
         fprintf(stderr, "Cannot encode %s: %s\n", rvalenc.failed_type->name, strerror(errno));
     } else {
-        printf("Structure successfully encoded %d\n", rvalenc.encoded);
+        //  printf("Structure successfully encoded %d\n", rvalenc.encoded);
         MessageForSending.data.length = rvalenc.encoded;
         asn_DEF_BasicSafetyMessage.free_struct(&asn_DEF_BasicSafetyMessage, bsm, 0);
     }

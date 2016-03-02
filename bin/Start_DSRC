@@ -1,2 +1,3 @@
+#!/bin/sh
 getwbsstxrxencdec -t BSM -o NORXALL -y 5 -s 172 -b 172 -u 2 -x 1 -w User
 

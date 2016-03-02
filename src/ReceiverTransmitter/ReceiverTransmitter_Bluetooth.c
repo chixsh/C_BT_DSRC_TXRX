@@ -70,6 +70,15 @@ int main(int arg, char *argv[]) {
 
     int LastOperation = RECEIVE_DSRC_MESSAGE;
 
+    /* while (1) { // starts rx packets and tx to bluetooth socket
+         if (Bluetooth_ConnectionStatus == BluetoothConnectionLost) {
+             usleep(100000);
+         }
+         if (Bluetooth_ConnectionStatus != BluetoothIsConnected) {
+             continue;
+         }
+         break;
+     }*/
 
     while (1) { // starts rx packets and tx to bluetooth socket
         if (Bluetooth_ConnectionStatus == BluetoothConnectionLost) {
