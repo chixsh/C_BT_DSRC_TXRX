@@ -294,6 +294,7 @@ int Initialize_Bluetooth_Environment(int arg, char *argv[]) {
     struct arguments arg1;
     int thread_arg = 2;
     int thread_ret = -1;
+    Bluetooth_ConnectionStatus = BluetoothConnectionLost;
     thread_ret = pthread_create(&Bluetooth_Thread, NULL, Bluetooth_Main_Thread, (void *) &thread_arg);
     sched_yield();
     if (thread_ret < 0) {
@@ -347,12 +348,6 @@ int Initialize_Bluetooth_Environment(int arg, char *argv[]) {
                Bluetooth_Entry.psid);
     }
 
-    /* while (1) {
-         usleep(100000);
-         if (Bluetooth_ConnectionStatus == BluetoothIsConnected) {
-             return Bluetooth_ConnectionStatus;
-         }
-     }*/
 }
 
 int Extract_MAC_Acaddress(u_int8_t *mac, char *str) {
