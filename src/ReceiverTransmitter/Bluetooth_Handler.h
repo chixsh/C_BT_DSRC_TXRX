@@ -43,7 +43,7 @@ enum {
     ADDR_MAC = 0, UINT8
 };
 enum {
-    BluetoothConnectionLost = 0, BluetoothIsConnected
+    BluetoothConnectionLost = 0, BluetoothIsConnected = 1
 };
 struct arguments {
     u_int8_t macaddr[17];
