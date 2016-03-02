@@ -31,6 +31,7 @@ LDFLAGS= -lm -lpthread -lwave -lbluetooth -L $(LIBDIR) -Xlinker -rpath -Xlinker 
 
 ReceiverTransmitter_Bluetooth: ReceiverTransmitter_Bluetooth.o Bluetooth_Handler.o DSRC_Handler.o GPS_Handler.o
 	${CC} -g  ${LDFLAGS} -o ReceiverTransmitter_Bluetooth ReceiverTransmitter_Bluetooth.o Bluetooth_Handler.o DSRC_Handler.o GPS_Handler.o
+
 clean:
 	rm -f *.o
 	cd ${BINDIR}; rm -f ReceiverTransmitter_Bluetooth; cd -

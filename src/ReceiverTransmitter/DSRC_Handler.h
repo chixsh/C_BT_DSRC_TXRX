@@ -19,7 +19,8 @@ enum {
     SEND_DSRC_MESSAGE = 0, RECEIVE_DSRC_MESSAGE
 };
 
-static WMEApplicationRequest DSRC_Entry;
+static WMEApplicationRequest DSRC_RX_Entry;
+static WMEApplicationRequest DSRC_TX_Entry;
 
 void DSRC_Signal_Interrupt(void);
 
@@ -35,8 +36,16 @@ int Initialize_DSRC_RX_Environment(int arg, char *argv[]);
 
 int Initialize_DSRC_TX_Environment(int arg, char *argv[]);
 
+char *Dec2Hex(short Number);
+
+int longLatToFourBytes(double LongLat, BasicSafetyMessage_t *bsm, int Start);
+
+int FillGPSInfo(BasicSafetyMessage_t *bsm);
+
+int BuildMessage();
+
+int TransmitMessage();
+
 int Send_DSRC_Message();
 
 int Receive_DSRC_Message();
-
-void *DSRC_Main_Thread(void *arg);
