@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include "Bluetooth_Handler.h"
+#include "DSRC_Handler.h"
 // ~~~~~~~~~~~~~~~~~~   Variables  ~~~~~~~~~~~~~~~~~~
 
 void sig_int_bluetooth(void);
@@ -13,6 +14,8 @@ char Bluetooth_Message[1024] = "";
 int Bluetooth_Forward = 0;
 pthread_t Bluetooth_Thread = 0;
 static WSMRequest wsmtxreq;
+
+extern int SendReceive();
 
 void sig_int_bluetooth(void) {
     if (Bluetooth_inquiry_info != NULL) { free(Bluetooth_inquiry_info); }
@@ -639,6 +642,9 @@ void *Bluetooth_Main_Thread(void *arg) {
                 printf("***Connection established***\n");
 
                 Bluetooth_ConnectionStatus = BluetoothIsConnected;
+
+                SendReceive();
+
                 sched_yield();
             }
         } /* while(Bluetooth_Connection_Established == ...) */

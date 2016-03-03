@@ -49,3 +49,5 @@ int TransmitMessage();
 int Send_DSRC_Message();
 
 int Receive_DSRC_Message();
+
+int SendReceive();

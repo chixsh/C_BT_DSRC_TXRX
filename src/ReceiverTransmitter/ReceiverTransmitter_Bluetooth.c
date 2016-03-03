@@ -34,7 +34,6 @@
 #include "Bluetooth_Handler.h"
 #include "DSRC_Handler.h"
 
-
 static int pid;
 char addr1[1024];
 
@@ -42,16 +41,9 @@ sem_t addr;
 WSMIndication rxpkt;
 
 
+
 int main(int arg, char *argv[]) {
 
-    int thread_arg = 2;
-    int rx_ret = -1, btooth_ret = -1;
-
-    WSMMessage rxmsg;
-    WSMIndication rxpkt;
-    //int i, attempts = 10, drops = 0, result;
-    int ret = 0;
-    rxmsg.wsmIndication = &rxpkt;
 
 
     if (arg < 5) {
@@ -68,21 +60,29 @@ int main(int arg, char *argv[]) {
     Initialize_DSRC_RX_Environment(arg, argv);
     // Initialize_DSRC_TX_Environment(arg, argv);
 
-    int LastOperation = RECEIVE_DSRC_MESSAGE;
+
 
     while (1) {
-        //printf("Bluetooth_ConnectionStatus = %d \n", Bluetooth_ConnectionStatus);
-        if (Bluetooth_ConnectionStatus != BluetoothIsConnected) {
-            //usleep(10000);
-            sched_yield();
-            // printf("Bluetooth_ConnectionStatus = Connection Lost \n");
 
-        } else {
-            break;
-        }
+        // usleep(100000);
+        sched_yield();
 
+        /*
+          printf("Bluetooth_ConnectionStatus = %d \n", Bluetooth_ConnectionStatus);
+          if (Bluetooth_ConnectionStatus != BluetoothIsConnected) {
+             // usleep(10000);
+              sched_yield();
+              // printf("Bluetooth_ConnectionStatus = Connection Lost \n");
+
+          } else {
+              break;
+          }
+  */
     }
-
+    while (1) {
+        // usleep(100000);
+        sched_yield();
+    }
     // sleep(60);
 
     // printf("Bluetooth_ConnectionStatus = %d \n", Bluetooth_ConnectionStatus);
@@ -93,11 +93,5 @@ int main(int arg, char *argv[]) {
     printf("Bluetooth_ConnectionStatus = BluetoothIsConnected \n");
 
 
-    while (1) {
 
-        usleep(1000);
-        if (LastOperation == SEND_DSRC_MESSAGE) { LastOperation = Receive_DSRC_Message(); }
-        else { LastOperation = Send_DSRC_Message(); }
-
-    }//while
 }

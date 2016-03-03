@@ -398,3 +398,18 @@ int Receive_DSRC_Message() {
 
     return RECEIVE_DSRC_MESSAGE;
 }
+
+
+int SendReceive() {
+
+    int LastOperation = RECEIVE_DSRC_MESSAGE;
+
+    printf("Start Send and Receive of DSRC Messages \n");
+    while (1) {
+
+        usleep(1000);
+        if (LastOperation == SEND_DSRC_MESSAGE) { LastOperation = Receive_DSRC_Message(); }
+        else { LastOperation = Send_DSRC_Message(); }
+
+    }//while
+}
