@@ -639,6 +639,7 @@ void *Bluetooth_Main_Thread(void *arg) {
                 printf("***Connection established***\n");
 
                 Bluetooth_ConnectionStatus = BluetoothIsConnected;
+                sched_yield();
             }
         } /* while(Bluetooth_Connection_Established == ...) */
         sched_yield();
