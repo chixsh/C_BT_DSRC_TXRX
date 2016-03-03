@@ -70,23 +70,32 @@ int main(int arg, char *argv[]) {
 
     int LastOperation = RECEIVE_DSRC_MESSAGE;
 
+    while (1) {
+        //printf("Bluetooth_ConnectionStatus = %d \n", Bluetooth_ConnectionStatus);
+        if (Bluetooth_ConnectionStatus != BluetoothIsConnected) {
+            //usleep(10000);
+            sched_yield();
+            // printf("Bluetooth_ConnectionStatus = Connection Lost \n");
 
+        } else {
+            break;
+        }
+
+    }
 
     // sleep(60);
 
-        printf("Bluetooth_ConnectionStatus = %d \n", Bluetooth_ConnectionStatus);
-        if (Bluetooth_ConnectionStatus != BluetoothIsConnected) {
-            printf("Bluetooth_ConnectionStatus = Connection Lost \n");
+    // printf("Bluetooth_ConnectionStatus = %d \n", Bluetooth_ConnectionStatus);
+    //if (Bluetooth_ConnectionStatus != BluetoothIsConnected) {
+    //   printf("Bluetooth_ConnectionStatus = Connection Lost \n");
 
-         }
+    // }
     printf("Bluetooth_ConnectionStatus = BluetoothIsConnected \n");
 
 
+    while (1) {
 
-
-    while (1) { // starts rx packets and tx to bluetooth socket
-
-        usleep(10000);
+        usleep(1000);
         if (LastOperation == SEND_DSRC_MESSAGE) { LastOperation = Receive_DSRC_Message(); }
         else { LastOperation = Send_DSRC_Message(); }
 
